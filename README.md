@@ -1,7 +1,7 @@
 # zenodo-upload
-upload big files to Zenodo.org using cURL, jq and bash using [zenodo_upload.sh](./zenodo_upload.sh)
+upload big files to Zenodo.org using cURL, jq and bash
 
-Uploading big files to https://zenodo.org from the commandline using the [Zenodo API](http://developers.zenodo.org/) is not straight forward. 
+Uploading big files to https://zenodo.org from the commandline using the [Zenodo API](http://developers.zenodo.org/) is not straight forward. [zenodo_upload.sh](./zenodo_upload.sh) tries to make this a little easier. 
 
 Inspired by Max Ogden's gist at https://gist.github.com/maxogden/b758cf0fe6d353846ef9ce7d03fdca0c .
 
