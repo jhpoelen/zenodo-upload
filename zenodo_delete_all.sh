@@ -1,12 +1,13 @@
 #!/bin/bash
 # Deletes all files of a Zenodo deposition.
 #
-# usage: ./zenodo_upload.sh [deposition id] [filename]
+# usage: ./zenodo_delete_all.sh [deposition id] 
 #
 
 set -xe
 
-DEPOSITION=$1
+# strip deposition url prefix if provided; see https://github.com/jhpoelen/zenodo-upload/issues/2#issuecomment-797657717
+DEPOSITION=$( echo $1 | sed 's+^http[s]*://zenodo.org/deposit/++g' )
 FILEPATH=$2
 FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 

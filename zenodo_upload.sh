@@ -6,7 +6,8 @@
 
 set -xe
 
-DEPOSITION=$1
+# strip deposition url prefix if provided; see https://github.com/jhpoelen/zenodo-upload/issues/2#issuecomment-797657717
+DEPOSITION=$( echo $1 | sed 's+^http[s]*://zenodo.org/deposit/++g' )
 FILEPATH=$2
 FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 
