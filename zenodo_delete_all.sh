@@ -13,4 +13,4 @@ FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 
 curl -H @<(echo -e "Accept: application/json\nAuthorization: Bearer $ZENODO_TOKEN") "https://www.zenodo.org/api/deposit/depositions/$DEPOSITION/files" | jq --raw-output .[].id > file_ids.txt
 
-cat file_ids.txt | parallel "echo curl -XDELETE -H \\\"Authorization: Bearer $ZENODO_TOKEN\\\" \\\"https://www.zenodo.org/api/deposit/depositions/$DEPOSITION/files/{1}\\\"" > delete_cmds.sh
+cat file_ids.txt | parallel "echo curl -XDELETE -H '@<(echo -e \"Authorization: Bearer $ZENODO_TOKEN\")' \\\"https://www.zenodo.org/api/deposit/depositions/$DEPOSITION/files/{1}\\\"" > delete_cmds.sh
