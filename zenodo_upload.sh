@@ -1,8 +1,8 @@
 #!/bin/bash
 # Upload big files to Zenodo.
 #
-# usage: ./zenodo_upload.sh [deposition id] [filename]
-#
+# usage: ./zenodo_upload.sh [-sb] <deposition id> <filename> 
+# -sb ... upload to zenodo sandbox
 
 set -e
 
