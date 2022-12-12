@@ -6,6 +6,22 @@
 
 set -e
 
+SBSTR=""
+
+while getopts "s" opt; do
+    case $opt in
+	    "s") echo "running in sandbox mode" >&2 
+		SBSTR="sandbox."
+		;;
+	     *) echo "Error: invalid option" >&2
+		exit 1
+		;;
+    esac
+done
+# reset option index for positional arguments later
+shift "$(( OPTIND - 1 ))"
+
+
 # strip deposition url prefix if provided; see https://github.com/jhpoelen/zenodo-upload/issues/2#issuecomment-797657717
 DEPOSITION=$( echo $1 | sed 's+^http[s]*://zenodo.org/deposit/++g' )
 FILEPATH="$2"
