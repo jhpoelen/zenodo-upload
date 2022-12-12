@@ -23,8 +23,9 @@ export ZENODO_TOKEN=[Zenodo access token]
 5. in the browser, copy the deposition id (e.g., in ```https://zenodo.org/deposit/12345``` , 12345 is the deposition id)
 6. in terminal and upload a file using
 ```bash
-./zenodo_upload.sh [deposition id] [filename]
+./zenodo_upload.sh [-s] <deposition id> <filename>
 ```
+Including option `-s` will upload the file to ```https://sandbox.zenodo.org/deposit/12346```instead. 
 7. on completion, you should see something like:
 ```shell
 + curl ...
