@@ -1,10 +1,15 @@
 #!/bin/bash
 # Upload big files to Zenodo.
 #
-# usage: ./zenodo_upload.sh [deposition id] [filename]
+# usage: ./zenodo_upload.sh [deposition id] [filename] [--verbose|-v]
 #
 
 set -e
+
+VERBOSE=0
+if [ "$3" == "--verbose" ] || [ "$3" == "-v" ]; then
+    VERBOSE=1
+fi
 
 # strip deposition url prefix if provided; see https://github.com/jhpoelen/zenodo-upload/issues/2#issuecomment-797657717
 DEPOSITION=$( echo $1 | sed 's+^http[s]*://zenodo.org/deposit/++g' )
@@ -13,4 +18,17 @@ FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 
 BUCKET=$(curl https://zenodo.org/api/deposit/depositions/"$DEPOSITION"?access_token="$ZENODO_TOKEN" | jq --raw-output .links.bucket)
 
-curl --progress-bar -o /dev/null --upload-file "$FILEPATH" $BUCKET/"$FILENAME"?access_token="$ZENODO_TOKEN"
+if [ "$VERBOSE" -eq 1 ]; then
+    echo "Deposition ID: $DEPOSITION"
+    echo "File path: $FILEPATH"
+    echo "File name: $FILENAME"
+    echo "Bucket URL: $BUCKET"
+    echo "Uploading file..."
+fi
+
+curl --progress-bar \
+    --retry 5 \
+    --retry-delay 5 \
+    -o /dev/null \
+    --upload-file "$FILEPATH" \
+    $BUCKET/"$FILENAME"?access_token="$ZENODO_TOKEN"
