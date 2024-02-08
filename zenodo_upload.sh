@@ -16,8 +16,9 @@ DEPOSITION=$( echo $1 | sed 's+^http[s]*://zenodo.org/deposit/++g' )
 FILEPATH="$2"
 FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 FILENAME=${FILENAME// /%20}
+ZENODO_ENDPOINT=${ZENODO_ENDPOINT:-https://zenodo.org}
 
-BUCKET=$(curl https://zenodo.org/api/deposit/depositions/"$DEPOSITION"?access_token="$ZENODO_TOKEN" | jq --raw-output .links.bucket)
+BUCKET=$(curl ${ZENODO_ENDPOINT}/api/deposit/depositions/"$DEPOSITION"?access_token="$ZENODO_TOKEN" | jq --raw-output .links.bucket)
 
 if [ "$VERBOSE" -eq 1 ]; then
     echo "Deposition ID: $DEPOSITION"
