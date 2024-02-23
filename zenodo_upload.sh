@@ -31,6 +31,7 @@ fi
 curl --progress-bar \
     --retry 5 \
     --retry-delay 5 \
+    --retry-all-errors \
     -o /dev/null \
     --upload-file "$FILEPATH" \
     $BUCKET/"$FILENAME"?access_token="$ZENODO_TOKEN"
