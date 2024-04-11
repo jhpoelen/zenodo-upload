@@ -18,13 +18,25 @@ FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 FILENAME=${FILENAME// /%20}
 ZENODO_ENDPOINT=${ZENODO_ENDPOINT:-https://zenodo.org}
 
-BUCKET=$(curl ${ZENODO_ENDPOINT}/api/deposit/depositions/"$DEPOSITION"?access_token="$ZENODO_TOKEN" | jq --raw-output .links.bucket)
+BUCKET_DATA=$(curl "${ZENODO_ENDPOINT}/api/deposit/depositions/$DEPOSITION?access_token=$ZENODO_TOKEN")
+BUCKET=$(echo "$BUCKET_DATA" | jq --raw-output .links.bucket)
 
 if [ "$VERBOSE" -eq 1 ]; then
+    echo
     echo "Deposition ID: $DEPOSITION"
     echo "File path: $FILEPATH"
     echo "File name: $FILENAME"
     echo "Bucket URL: $BUCKET"
+fi
+
+if [ "$BUCKET" = "null" ]; then
+    echo
+    echo "Could not find URL for upload. Response from server:"
+    echo "$BUCKET_DATA"
+    exit 1
+fi
+
+if [ "$VERBOSE" -eq 1 ]; then
     echo "Uploading file..."
 fi
 
