@@ -1,8 +1,11 @@
 #!/bin/bash
-# Publish deposit
+# Remove submitted deposit from communities
 #
-# usage: ./zenodo_publish.sh [deposit id] [--verbose|-v]
+# usage: ./zenodo_remove_from_communities.sh [deposit id] [metadata filename] [--verbose|-v]
 #
+# with metadata containing the uuids of the communities that you'd like the deposit to be removed from
+#
+# {"communities":[{"id":"23bc63d8-1a49-4a20-9519-fb3a3e78f2b4"}, {"id":"c529f97d-f8cb-4c13-a439-9e36891694c2"}]}
 
 set -ex
 
@@ -17,7 +20,7 @@ FILENAME=$(echo $FILEPATH | sed 's+.*/++g')
 FILENAME=${FILENAME// /%20}
 ZENODO_ENDPOINT=${ZENODO_ENDPOINT:-https://zenodo.org}
 
-DEPOSITION_ENDPOINT="${ZENODO_ENDPOINT}/api/deposit/depositions/${DEPOSIT}"
+DEPOSITION_ENDPOINT="${ZENODO_ENDPOINT}/api/records/${DEPOSIT}/communities"
 
 if [ "$VERBOSE" -eq 1 ]; then
     echo "Deposition ID: ${DEPOSITION}"
@@ -30,5 +33,6 @@ curl --progress-bar \
     --retry 5 \
     --retry-delay 5 \
     -H "Content-Type: application/json" \
-    -X POST\
-    "${DEPOSITION_ENDPOINT}/actions/publish?access_token=${ZENODO_TOKEN}"
+    -X DELETE\
+    --data "@${FILEPATH}" \
+    "${DEPOSITION_ENDPOINT}?access_token=${ZENODO_TOKEN}"

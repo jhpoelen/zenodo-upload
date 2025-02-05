@@ -4,7 +4,7 @@
 # usage: ./zenodo_upload.sh [deposition id] [filename] [--verbose|-v]
 #
 
-set -e
+set -xe
 
 VERBOSE=0
 if [ "$3" == "--verbose" ] || [ "$3" == "-v" ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
-# Publish deposit
+# Unlock submitted deposit for metadata editing
 #
-# usage: ./zenodo_publish.sh [deposit id] [--verbose|-v]
+# usage: ./zenodo_edit.sh [deposit id] [--verbose|-v]
 #
 
 set -ex
@@ -31,4 +31,4 @@ curl --progress-bar \
     --retry-delay 5 \
     -H "Content-Type: application/json" \
     -X POST\
-    "${DEPOSITION_ENDPOINT}/actions/publish?access_token=${ZENODO_TOKEN}"
+    "${DEPOSITION_ENDPOINT}/actions/edit?access_token=${ZENODO_TOKEN}"
