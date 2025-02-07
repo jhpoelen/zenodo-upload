@@ -28,9 +28,12 @@ if [ "$VERBOSE" -eq 1 ]; then
     echo "Uploading file..."
 fi
 
-curl --progress-bar \
+curl -# \
+    --progress-bar \
     --retry 5 \
     --retry-delay 5 \
+    --max-time 60000 \
+    --connect-timeout 600 \
     -o /dev/null \
     --upload-file "$FILEPATH" \
     $BUCKET/"$FILENAME"?access_token="$ZENODO_TOKEN"
