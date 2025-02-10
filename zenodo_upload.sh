@@ -29,8 +29,9 @@ if [ "$VERBOSE" -eq 1 ]; then
 fi
 
 curl --progress-bar \
-    --retry 5 \
+    --retry 50 \
     --retry-delay 5 \
+    --retry-all-errors \
     -o /dev/null \
     --upload-file "$FILEPATH" \
     $BUCKET/"$FILENAME"?access_token="$ZENODO_TOKEN"
