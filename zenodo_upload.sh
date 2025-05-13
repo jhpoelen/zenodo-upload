@@ -4,11 +4,22 @@
 # usage: ./zenodo_upload.sh [deposition id] [filename] [--verbose|-v]
 #
 
-set -xe
+set -e
 
 VERBOSE=0
 if [ "$3" == "--verbose" ] || [ "$3" == "-v" ]; then
+    set -x
     VERBOSE=1
+fi
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 [deposition id] [filename] [--verbose|-v]"
+    exit 1
+fi
+
+if [ -z "$ZENODO_TOKEN" ]; then
+    echo "The ZENODO_TOKEN variable needs to be set and not empty."
+    exit 1
 fi
 
 # strip deposition url prefix if provided; see https://github.com/jhpoelen/zenodo-upload/issues/2#issuecomment-797657717
