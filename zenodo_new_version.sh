@@ -14,7 +14,7 @@ if [ "$2" == "--verbose" ] || [ "$2" == "-v" ]; then
     VERBOSE=1
 fi
 
-ZENODO_ENDPOINT=${ZENODO_ENDPOINT-:https://zenodo.org}
+ZENODO_ENDPOINT=${ZENODO_ENDPOINT:-https://zenodo.org}
 
 DEPOSITION_ENDPOINT="${ZENODO_ENDPOINT}/api/deposit/depositions/${DEPOSIT}/actions/newversion"
 
